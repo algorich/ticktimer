@@ -1,0 +1,55 @@
+#!/usr/bin/python
+#
+# Copyright (c) 2011 Hugo Henriques Maia Vieira
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import gtk
+import sys, getopt
+from timer.timer import Timer
+
+def usage():
+    print """\n\tusage: tictimer (minutes|minutes:seconds) [-h|--help] [-v|--verbose]\n"""
+
+def format_time(time):
+    """Return a [minutes, seconds] integer list."""
+    time = time.split(':')
+    if len(time) == 1: return [int(time[0]), 0]
+    elif len(time) == 2: return map(int, time)
+    raise ValueError, 'the time should be like 5 (just minutes) or 4:30 (minutes:seconds)'
+
+def main(argv):
+    try:
+        minutes, seconds = format_time(argv[0])
+        opts, args = getopt.getopt(argv[1:], 'hv', ['help', 'verbose'])
+    except ValueError, e:
+        print '\n\targument error: %s' % e
+        usage()
+        sys.exit(2)
+    except: # getopt.GetoptError or IndexError
+        usage()
+        sys.exit(2)
+    verbose = False
+    for opt, arg in opts:
+        if opt in ('-h', '--help'): usage(); exit()
+        elif opt in ('-v', '--verbose'): verbose = True
+    timer = Timer(minutes, seconds)
+    timer.verbose_run() if verbose else timer.run()
+    sys.exit()
+
+if __name__ == '__main__':
+    gtk.gdk.threads_init()
+    main(sys.argv[1:])
+    gtk.main()
+
