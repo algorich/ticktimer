@@ -17,17 +17,55 @@
 
 import gtk
 import sys, getopt
-from timer.timer import Timer
+import os
+import pygst, gst
+from time import sleep
+import pynotify
 
-def usage():
-    print """\n\tusage: ticktimer (minutes|minutes:seconds) [-h|--help] [-v|--verbose]\n"""
+class Timer(object):
 
-def format_time(time):
-    """Return a [minutes, seconds] integer list."""
-    time = time.split(':')
-    if len(time) == 1: return [int(time[0]), 0]
-    elif len(time) == 2: return map(int, time)
-    raise ValueError, 'the time should be like 5 (just minutes) or 4:30 (minutes:seconds)'
+    SOUND_URI = 'file:///usr/share/sounds/timer.ogg'
+
+    def __init__(self, minutes=0, seconds=0):
+        try:
+            self._minutes = int(minutes)
+            self._seconds = int(seconds)
+        except ValueError:
+            raise ValueError, 'minutes and seconds should be numbers or numerical strings'
+
+    def verbose_run(self):
+        time = self._minutes * 60 + self._seconds
+        for s in range(time):
+            os.system('clear')
+            minutes, seconds = divmod(time, 60)
+            time -= 1
+            print '%02d:%02d' % (minutes, seconds)
+            sleep(1)
+        self._notify()
+        self._play_sound()
+
+    def run(self):
+        time = self._minutes * 60 + self._seconds
+        for s in range(time):
+            sleep(1)
+        self._notify()
+        self._play_sound()
+
+    def _play_sound(self):
+        player = gst.element_factory_make("playbin", "player")
+        player.set_state(gst.STATE_NULL)
+        player.set_property('uri', Timer.SOUND_URI)
+        player.set_state(gst.STATE_PLAYING)
+        sleep(5)
+
+    def _notify(self):
+        pynotify.init('Timer')
+        notification = pynotify.Notification("Time's up!",
+                                             '%02d:%02d has passed'
+                                                % (self._minutes,self._seconds),
+                                             'dialog-ok')
+        notification.show()
+
 
 def main(argv):
     try:
@@ -47,6 +85,16 @@ def main(argv):
     timer = Timer(minutes, seconds)
     timer.verbose_run() if verbose else timer.run()
     sys.exit()
+
+def usage():
+    print """\n\tusage: ticktimer (minutes|minutes:seconds) [-h|--help] [-v|--verbose]\n"""
+
+def format_time(time):
+    """Return a [minutes, seconds] integer list."""
+    time = time.split(':')
+    if len(time) == 1: return [int(time[0]), 0]
+    elif len(time) == 2: return map(int, time)
+    raise ValueError, 'the time should be like 5 (just minutes) or 4:30 (minutes:seconds)'
 
 if __name__ == '__main__':
     gtk.gdk.threads_init()

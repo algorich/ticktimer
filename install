@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# Black magic to get the script's folder
+FOLDER=$(cd $(dirname $0); pwd -P)
+
+sudo cp $FOLDER/ticktimer /usr/bin
+sudo cp $FOLDER/data/timer.ogg /usr/share/sounds/
+

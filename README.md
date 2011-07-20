@@ -17,7 +17,9 @@ Obs.: the `&` is just to run on background
 
 ## Install
 
-On Ubuntu 11.04, just copy _ticktimer_ file and _timer_ dir to _~/bin_
+Just run the _install_ script.
+
+    $ ./install
 
 
 ## The goals
