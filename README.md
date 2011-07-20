@@ -1,23 +1,23 @@
-# TicTimer
+# TickTimer
 
 This is a timer written in python.
 
 ## Command line usage
 
-    $ tictimer (minutes|minutes:seconds) [-h|--help] [-v|--verbose]
+    $ ticktimer (minutes|minutes:seconds) [-h|--help] [-v|--verbose]
 
 The _--verbose_ option shows a count down timer on the terminal.
 
 **Example:**
 
-    $ tictimer 5:30 &
+    $ ticktimer 5:30 &
 
 Obs.: the `&` is just to run on background
 
 
 ## Install
 
-On Ubuntu 11.04, just copy _tictimer_ file and _timer_ dir to _~/bin_
+On Ubuntu 11.04, just copy _ticktimer_ file and _timer_ dir to _~/bin_
 
 
 ## The goals

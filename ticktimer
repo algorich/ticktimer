@@ -20,7 +20,7 @@ import sys, getopt
 from timer.timer import Timer
 
 def usage():
-    print """\n\tusage: tictimer (minutes|minutes:seconds) [-h|--help] [-v|--verbose]\n"""
+    print """\n\tusage: ticktimer (minutes|minutes:seconds) [-h|--help] [-v|--verbose]\n"""
 
 def format_time(time):
     """Return a [minutes, seconds] integer list."""
