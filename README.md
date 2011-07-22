@@ -8,11 +8,41 @@ This is a timer written in python.
 
 The _--verbose_ option shows a count down timer on the terminal.
 
-**Example:**
+### Control the running
+
+You can use some commands to control how _ticktimer_ is running.
+
+#### Pause
+
+Let's say that you run _ticktimer_ like this:
+
+    $ ticktimer 5:30 -v
+
+To pause the time, press `Ctrl+z` and the process you be paused on background.
+To get it running again, use the `fg` command.
+
+Now, let's say that you run _ticktimer_ on background, like this:
 
     $ ticktimer 5:30 &
 
-Obs.: the `&` is just to run on background
+To pause the time, use the command `fg`, to get the process running on
+foreground. Then, press `Ctrl+z` and the process you be paused on background. To
+get it running on background again, use the command `bg`.
+
+#### Stop
+
+Let's say that you run _ticktimer_ like this:
+
+    $ ticktimer 5:30 -v
+
+To stop the time, press `Ctrl+c` and the process you be stoped.
+
+Now, let's say that you run _ticktimer_ on background, like this:
+
+    $ ticktimer 5:30 &
+
+To stop the time, use the command `fg`, to get the process running on
+foreground. Then, press `Ctrl+c` and the process you be stoped.
 
 
 ## Install
